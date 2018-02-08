@@ -4,7 +4,7 @@
 #include <Bounce2.h>
 #include <JSONtoSPIFFS.h>
 
-#include "Modul_Info_2O.h"
+#include "Modul_Info_1O.h"
 
 #define CONFIGFILE_MQTT "config_MQTT.json"
 #define CONFIGFILE_IO "config_IO.json"
@@ -445,24 +445,26 @@ void onMqttConnect(bool sessionPresent) {
 	sendMqttState();
 }
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
+	String _payload = String(payload).substring(0, len);
+	Serial.println();
 	//Evaluate publishes here
 	//Output 1
 	if (OutConf[0].enableSubscribe && (String(topic) == OutConf[0].cmd.topic)) {
-		if (String(payload) == OutConf[0].cmd.payloadOff) output[0] = false;
-		else if (String(payload) == OutConf[0].cmd.payloadOn) output[0] = true;
+		if (String(_payload) == OutConf[0].cmd.payloadOff) output[0] = false;
+		else if (String(_payload) == OutConf[0].cmd.payloadOn) output[0] = true;
 	}
 	//Output 2
 	if (OutConf[1].enableSubscribe && (String(topic) == OutConf[1].cmd.topic)) {
-		if (String(payload) == OutConf[1].cmd.payloadOff) output[1] = false;
-		else if (String(payload) == OutConf[1].cmd.payloadOn) output[1] = true;
+		if (String(_payload) == OutConf[1].cmd.payloadOff) output[1] = false;
+		else if (String(_payload) == OutConf[1].cmd.payloadOn) output[1] = true;
 	}
 	//Update Firmware
 	if (MqttConf.FWUpdateEN && (String(topic) == MqttConf.updCmd.topic)) {
-		if (String(payload) == MqttConf.updCmd.payloadOn) {
+		if (String(_payload) == MqttConf.updCmd.payloadOn) {
 			ESPHTTPServer.checkUpdate();
 			mqttClient.publish(MqttConf.updState.topic.c_str(), MqttConf.updState.qos, MqttConf.updState.retain, "CH.ACK");
 		}
-		else if (String(payload) == MqttConf.updCmd.payloadOff) {
+		else if (String(_payload) == MqttConf.updCmd.payloadOff) {
 			if (!ESPHTTPServer.runUpdate()) mqttClient.publish(MqttConf.updState.topic.c_str(), MqttConf.updState.qos, MqttConf.updState.retain, "UP.CUF");
 			else mqttClient.publish(MqttConf.updState.topic.c_str(), MqttConf.updState.qos, MqttConf.updState.retain, "UP.ACK");
 		}
