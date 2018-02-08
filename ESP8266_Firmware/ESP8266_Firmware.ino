@@ -446,7 +446,6 @@ void onMqttConnect(bool sessionPresent) {
 }
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
 	String _payload = String(payload).substring(0, len);
-	Serial.println();
 	//Evaluate publishes here
 	//Output 1
 	if (OutConf[0].enableSubscribe && (String(topic) == OutConf[0].cmd.topic)) {
