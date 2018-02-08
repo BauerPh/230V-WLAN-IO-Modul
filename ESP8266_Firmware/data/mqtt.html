@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>MQTT-Einstellungen</title>
+
+<form>
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+            <td colspan="3" align="left"><a href="admin.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>MQTT-Einstellungen</strong></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Allgemein</strong></td>
+        </tr>
+        <tr>
+            <td align="right">MQTT aktivieren:</td>
+            <td><input type="checkbox" id="enabled" name="enabled" onclick="javascript:enableDisableFields()"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Host:</td>
+            <td><input type="text" id="host" name="host" value="" maxlength="15"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Port:</td>
+            <td><input type="text" id="port" name="port" value="" size="5" maxlength="5"></td>
+            <td align="left"><span class="infotext">(1~65535, Standard: 1883)</span></td>
+        </tr>
+        <tr>
+            <td align="right">Device-ID:</td>
+            <td><input type="text" id="devID" name="devID" value="" maxlength="23"></td>
+            <td align="left"><span class="infotext">(max. 23 Zeichen)</span></td>
+        </tr>
+        <tr>
+            <td align="right">Keepalive:</td>
+            <td><input type="text" id="keepAlive" name="keepAlive" value="" size="3" maxlength="3"></td>
+            <td align="left"><span class="infotext">(2~300 Sekunden, Standard: 60s)</span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Authentifizierung</strong></td>
+        </tr>
+        <tr>
+            <td align="right">aktivieren:</td>
+            <td><input type="checkbox" id="auth" name="auth" onclick="javascript:enableDisableFields()"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Benutzer:</td>
+            <td><input type="text" id="username" name="username" value="" maxlength="30"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Passwort:</td>
+            <td><input type="password" id="password" name="password" value="" maxlength="30"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Disconnect Message (Last-Will)</strong></td>
+        </tr>
+        <tr>
+            <td align="right">aktivieren:</td>
+            <td><input type="checkbox" id="lastWillEnable" name="lastWillEnable" onclick="javascript:enableDisableFields()"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Topic:</td>
+            <td><input type="text" id="lastWill.topic" name="lastWill.topic" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Payload:</td>
+            <td><input type="text" id="lastWill.payload" name="lastWill.payload" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">QoS:</td>
+            <td>
+                <select id="lastWill.qos" name="lastWill.qos">
+                    <option value="0">0 (höchstens 1 mal)</option>
+                    <option value="1">1 (mindestens 1 mal)</option>
+                    <option value="2">2 (genau 1 mal)</option>
+                </select>
+            </td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">retain:</td>
+            <td><input type="checkbox" id="lastWill.retain" name="lastWill.retain"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Connect Message</strong></td>
+        </tr>
+        <tr>
+            <td align="right">aktivieren:</td>
+            <td><input type="checkbox" id="sendConMsg" name="sendConMsg" onclick="javascript:enableDisableFields()"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Topic:</td>
+            <td><input type="text" id="conMsg.topic" name="conMsg.topic" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Payload:</td>
+            <td><input type="text" id="conMsg.payload" name="conMsg.payload" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">QoS:</td>
+            <td>
+                <select id="conMsg.qos" name="conMsg.qos">
+                    <option value="0">0 (höchstens 1 mal)</option>
+                    <option value="1">1 (mindestens 1 mal)</option>
+                    <option value="2">2 (genau 1 mal)</option>
+                </select>
+            </td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">retain:</td>
+            <td><input type="checkbox" id="conMsg.retain" name="conMsg.retain"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Firmware Update</strong></td>
+        </tr>
+        <tr>
+            <td align="right">aktivieren:</td>
+            <td><input type="checkbox" id="FWUpdateEN" name="FWUpdateEN" onclick="javascript:enableDisableFields()"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>&nbsp;&nbsp;Control</strong></td>
+        </tr>
+        <tr>
+            <td align="right">Topic:</td>
+            <td><input type="text" id="updCmd.topic" name="updCmd.topic" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Payload "Check":</td>
+            <td><input type="text" id="updCmd.payloadVer" name="updCmd.payloadVer" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Payload "Start":</td>
+            <td><input type="text" id="updCmd.payloadUpd" name="updCmd.payloadUpd" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">QoS:</td>
+            <td>
+                <select id="updCmd.qos" name="updCmd.qos">
+                    <option value="0">0 (höchstens 1 mal)</option>
+                    <option value="1">1 (mindestens 1 mal)</option>
+                    <option value="2">2 (genau 1 mal)</option>
+                </select>
+            </td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>&nbsp;&nbsp;Status</strong></td>
+        </tr>
+        <tr>
+            <td align="right">Topic:</td>
+            <td><input type="text" id="updState.topic" name="updState.topic" value="" maxlength="128"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">QoS:</td>
+            <td>
+                <select id="updState.qos" name="updState.qos">
+                    <option value="0">0 (höchstens 1 mal)</option>
+                    <option value="1">1 (mindestens 1 mal)</option>
+                    <option value="2">2 (genau 1 mal)</option>
+                </select>
+            </td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">retain:</td>
+            <td><input type="checkbox" id="updState.retain" name="updState.retain"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center"><button type="button" id="send" name="send" class="btn btn--m btn--blue" onclick="javascript:post()">Speichern</button></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><span id="info" class="infotext"><br /></span></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    window.onload = function () {
+        load("functions.js", function () {
+            setValues("/rest/mqtt", function () { enableDisableFields(); });            
+            for (i = 0; i < document.forms[0].length; i++) {
+                if ((document.forms[0].elements[i].type == 'text') || (document.forms[0].elements[i].type == 'password')) {
+                    document.forms[0].elements[i].onfocus = resetBgThis;
+                    document.forms[0].elements[i].onblur = checkValues;
+                }
+            }
+        });
+    }
+
+    function checkValues() {
+        var okay = true;
+        if (!document.getElementById("enabled").checked) {
+            for (i = 0; i < document.forms[0].length; i++) {
+                if ((document.forms[0].elements[i].type == 'text') || (document.forms[0].elements[i].type == 'password')) {
+                    resetBg(document.forms[0].elements[i].id);
+                }
+            }
+        } else {
+            okay &= testStr("host", "ip");
+            okay &= testStr("port", "number", 1, 65535);
+            okay &= testStr("devID", "string", 1, 23);
+            okay &= testStr("keepAlive", "number", 2, 300);
+            if (!document.getElementById("auth").checked) {
+                resetBg("username");
+                resetBg("password");
+            } else {
+                okay &= testStr("username", "string", 1, 30);
+                okay &= testStr("password", "string", 1, 30);
+            }
+            if (!document.getElementById("lastWillEnable").checked) {
+                resetBg("lastWill.topic");
+                resetBg("lastWill.payload");
+            } else {
+                okay &= testStr("lastWill.topic", "mqtt_topic", 1, 128);
+                okay &= testStr("lastWill.payload", "string", 1, 128);   
+            }
+            if (!document.getElementById("sendConMsg").checked) {
+                resetBg("conMsg.topic");
+                resetBg("conMsg.payload");
+            } else {
+                okay &= testStr("conMsg.topic", "mqtt_topic", 1, 128); 
+                okay &= testStr("conMsg.payload", "string", 1, 128); 
+            }
+            if (!document.getElementById("FWUpdateEN").checked) {
+                resetBg("updCmd.topic");
+                resetBg("updCmd.payloadVer");
+                resetBg("updCmd.payloadUpd");
+                resetBg("updState.topic");
+            } else {
+                okay &= testStr("updCmd.topic", "mqtt_topic", 1, 128);
+                okay &= testStr("updCmd.payloadVer", "string", 1, 128); 
+                okay &= testStr("updCmd.payloadUpd", "string", 1, 128);
+                okay &= testStr("updState.topic", "mqtt_topic", 1, 128);
+            }
+        }
+        return okay;
+    }
+
+    function enableDisableFields() {
+        document.getElementById("host").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("port").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("devID").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("keepAlive").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("auth").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("username").disabled = !document.getElementById("enabled").checked || !document.getElementById("auth").checked;
+        document.getElementById("password").disabled = !document.getElementById("enabled").checked || !document.getElementById("auth").checked;
+        document.getElementById("lastWillEnable").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("lastWill.topic").disabled = !document.getElementById("enabled").checked || !document.getElementById("lastWillEnable").checked;
+        document.getElementById("lastWill.payload").disabled = !document.getElementById("enabled").checked || !document.getElementById("lastWillEnable").checked;
+        document.getElementById("lastWill.qos").disabled = !document.getElementById("enabled").checked|| !document.getElementById("lastWillEnable").checked;
+        document.getElementById("lastWill.retain").disabled = !document.getElementById("enabled").checked || !document.getElementById("lastWillEnable").checked;
+        document.getElementById("sendConMsg").disabled = !document.getElementById("enabled").checked;
+        document.getElementById("conMsg.topic").disabled = !document.getElementById("enabled").checked || !document.getElementById("sendConMsg").checked;
+        document.getElementById("conMsg.payload").disabled = !document.getElementById("enabled").checked || !document.getElementById("sendConMsg").checked;
+        document.getElementById("conMsg.qos").disabled = !document.getElementById("enabled").checked || !document.getElementById("sendConMsg").checked;
+        document.getElementById("conMsg.retain").disabled = !document.getElementById("enabled").checked || !document.getElementById("sendConMsg").checked;
+        document.getElementById("updCmd.topic").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        document.getElementById("updCmd.payloadVer").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        document.getElementById("updCmd.payloadUpd").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        document.getElementById("updCmd.qos").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        document.getElementById("updState.topic").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        document.getElementById("updState.qos").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        document.getElementById("updState.retain").disabled = !document.getElementById("enabled").checked || !document.getElementById("FWUpdateEN").checked;
+        checkValues();
+    }
+
+    function post() {
+        if (checkValues()) {
+            document.getElementById("send").disabled = true;
+            document.getElementById("info").innerHTML = "Bitte warten...";
+            var body = "enabled=" + document.getElementById("enabled").checked + "&";
+            body += "host=" + document.getElementById("host").value + "&";
+            body += "port=" + document.getElementById("port").value + "&";
+            body += "devID=" + document.getElementById("devID").value + "&";
+            body += "keepAlive=" + document.getElementById("keepAlive").value + "&";
+            body += "auth=" + document.getElementById("auth").checked + "&";
+            body += "username=" + document.getElementById("username").value + "&";
+            body += "password=" + document.getElementById("password").value + "&";
+            body += "lastWillEnable=" + document.getElementById("lastWillEnable").checked + "&";
+            body += "lastWill.topic=" + document.getElementById("lastWill.topic").value + "&";
+            body += "lastWill.payload=" + document.getElementById("lastWill.payload").value + "&";
+            body += "lastWill.qos=" + document.getElementById("lastWill.qos").value + "&";
+            body += "lastWill.retain=" + document.getElementById("lastWill.retain").checked + "&";
+            body += "sendConMsg=" + document.getElementById("sendConMsg").checked + "&";
+            body += "conMsg.topic=" + document.getElementById("conMsg.topic").value + "&";
+            body += "conMsg.payload=" + document.getElementById("conMsg.payload").value + "&";
+            body += "conMsg.qos=" + document.getElementById("conMsg.qos").value + "&";
+            body += "conMsg.retain=" + document.getElementById("conMsg.retain").checked + "&";
+            body += "FWUpdateEN=" + document.getElementById("FWUpdateEN").checked + "&";
+            body += "updCmd.topic=" + document.getElementById("updCmd.topic").value + "&";
+            body += "updCmd.payloadVer=" + document.getElementById("updCmd.payloadVer").value + "&";
+            body += "updCmd.payloadUpd=" + document.getElementById("updCmd.payloadUpd").value + "&";
+            body += "updCmd.qos=" + document.getElementById("updCmd.qos").value + "&";
+            body += "updState.topic=" + document.getElementById("updState.topic").value + "&";
+            body += "updState.qos=" + document.getElementById("updState.qos").value + "&";
+            body += "updState.retain=" + document.getElementById("updState.retain").checked;
+            microAjax("/post/mqtt", afterpost, body);
+        } else {
+            document.getElementById("info").innerHTML = "Bitte die rot hinterlegten Felder prüfen...";
+        }
+    }
+
+    function afterpost(res) {
+        if (res == "OK") {
+            document.getElementById("info").innerHTML = "gespeichert, <a href=\"javascript:restartESP()\">Neustart</a> erforderlich!";
+        } else {
+            document.getElementById("info").innerHTML = "Fehler! - es wurde nichts gespeichert!";
+        }
+        setValues("/rest/mqtt", function () { enableDisableFields() });
+        document.getElementById("send").disabled = false;
+    }
+
+    function restartESP() {
+        document.getElementById("send").disabled = true;
+        document.getElementById("info").innerHTML = "...wird neu gestartet!"
+        setValues("/admin/actions/restart");
+        setTimeout(function () { window.location.reload(); }, 5000);
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+        a.type = "text/javascript",
+        a.async = !1,
+        a.onload = function () { n() },
+        document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

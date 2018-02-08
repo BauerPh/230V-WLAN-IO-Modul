@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>Update</title>
+
+<table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+        <td colspan="3" align="left"><a href="system.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>Update</strong></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="3"><hr></td>
+    </tr>
+    <tr>
+        <td align="right">Info:</td>
+        <td colspan="2" align="left"><div id="state" class="infotext"><br /></div></td>
+    </tr>
+    <tr>
+        <td align="right">Server Version:</td>
+        <td colspan="2" align="left"><div id="serverVersion" class="infotext"><br /></div></td>
+    </tr>
+    <tr>
+        <td align="right">Client Version:</td>
+        <td colspan="2" align="left"><div id="clientVersion" class="infotext"><br /></div></td>
+    </tr>
+    <tr>
+        <td align="right">Update möglich?:</td>
+        <td colspan="2" align="left"><div id="updatePossible" class="infotext"><br /></div></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="3"><hr></td>
+    </tr>
+    <tr>
+        <td colspan="3" align="center"><button type="button" id="checkUpdate" name="checkUpdate" class="btn btn--m btn--blue" onclick="javascript:checkUpdate()">Auf Updates Prüfen</button></td>
+    </tr>
+    <tr>
+        <td colspan="3" align="center"><button type="button" id="startUpdate" name="startUpdate" class="btn btn--m btn--blue" onclick="javascript:startUpdate()" disabled>Update starten</button></td>
+    </tr>
+</table>
+
+<script>
+    var evs, timeout;
+
+    window.onload = function () {
+        load("functions.js", function () {
+            startEvents();
+        });
+    }
+
+    function startUpdate() {
+        if (evs.readyState == 1) {
+            document.getElementById("startUpdate").disabled = true;
+            document.getElementById("checkUpdate").disabled = true;
+            document.getElementById("state").innerHTML = "Bitte warten...";
+            setValues("/admin/update/doUpdate");
+            timeout = setTimeout(function () {
+                document.getElementById("state").innerHTML = "ESP nicht erreichbar...";
+                document.getElementById("checkUpdate").disabled = false;
+            }, 8000);
+        } else {
+            document.getElementById("state").innerHTML = "EventSource nicht verbunden...Seite wird neu geladen";
+            setTimeout(function () { window.location.reload(); }, 800);
+        }
+    }
+
+    function checkUpdate() {
+        if (evs.readyState == 1) {
+            document.getElementById("startUpdate").disabled = true;
+            document.getElementById("checkUpdate").disabled = true;
+            document.getElementById("state").innerHTML = "Bitte warten...";
+            setValues("/admin/update/checkUpdate");
+            timeout = setTimeout(function () {
+                document.getElementById("state").innerHTML = "ESP nicht erreichbar...";
+                document.getElementById("checkUpdate").disabled = false;
+            }, 8000);
+        } else {
+            document.getElementById("state").innerHTML = "EventSource nicht verbunden...Seite wird neu geladen";
+            setTimeout(function () { window.location.reload(); }, 800);
+        }
+    }
+
+    function startEvents() {
+        evs = new EventSource('/updEvents');
+        evs.addEventListener('rdy', function (e) {
+            checkUpdate();
+        }, false);
+        evs.addEventListener('state', function (evt) {
+            clearTimeout(timeout);
+            var arrState = String(evt.data).split('.', 2);
+            var intState = Number(arrState[0]);
+            var strState = "";
+            if (intState >= 0 && intState <= 9) {
+                var arrMsg = new Array("--", "SPIFFS Update wird gestartet...", "SPIFFS Update läuft...", "FW Update wird gestartet...", "FW Update läuft...", "--", "Update verfügbar, aber kein Speicher!", "Update verfügbar!", "kein Update verfügbar!", "Update erfolgreich abgeschlossen, ESP wird neu gestartet...");
+                strState = arrMsg[intState];
+            } else if (intState >= 10) {
+                var intErr = Number(arrState[1]);
+                strState = "Fehler: "
+                if (intErr < 20) {
+                    var arrMsg = new Array("--", "invalid parsestate", "invalid http response => check updateserver", "invalid http statuscode => check updateserver", "invalid header => check updateserver", "connect failed => check updateserver!", "server disconnected", "no version for this model", "begin update", "end update", "SPIFFS/FW mismatch", "invalid updatestate => wrong server?");
+                    strState += arrMsg[intErr];
+                } else {
+                    var arrMsg = new Array("connect failed", "update already running");
+                    strState += arrMsg[intErr - 20];
+                }
+            } else {
+                strState = "--";
+            }
+            document.getElementById("state").innerHTML = strState;
+            if (intState == 7) document.getElementById("startUpdate").disabled = false;
+            if ((intState >= 6) && (intState < 9) || (intState == 10)) document.getElementById("checkUpdate").disabled = false;
+            if (intState == 9) setTimeout(function () { window.location.reload(); }, 15000);
+        }, false);
+        evs.addEventListener('UpdData', function (evt) {
+            var jsonData = JSON.parse(evt.data);
+            document.getElementById("serverVersion").innerHTML = jsonData.serverVer;
+            document.getElementById("clientVersion").innerHTML = jsonData.clientVer;
+            document.getElementById("updatePossible").innerHTML = jsonData.updPoss;
+        }, false);
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+            a.type = "text/javascript",
+            a.async = !1,
+            a.onload = function () { n() },
+            document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

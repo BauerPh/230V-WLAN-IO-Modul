@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>ESP Monitor</title>
+
+<table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+        <td align="left"><a href="admin.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>ESP Monitor</strong></td>
+    </tr>
+    <tr><td align="left"><hr></td></tr>
+    <tr>
+        <td>
+            <div id="controls" style="display: block; border: 1px solid rgb(68, 68, 68); padding: 5px; margin: 5px; width: 362px; background-color: rgb(238, 238, 238);">
+                <label>Period (ms):</label>
+                <input type="number" id="refresh-rate" />
+                <input type="button" id="start-button" value="Start" />
+                <input type="button" id="stop-button" value="Stop" />
+            </div>
+            <div id="heap"></div>
+            <div id="analog"></div>
+            <div id="digital"></div>
+        </td>
+    </tr>
+</table>
+<script>
+    var heap, temp, digi;
+    var reloadPeriod = 1000;
+    var running = false;
+
+    function loadValues() {
+        if (!running) return;
+        var xh = new XMLHttpRequest();
+        xh.onreadystatechange = function () {
+            if (xh.readyState == 4) {
+                if (xh.status == 200) {
+                    var res = JSON.parse(xh.responseText);
+                    heap.add(res.heap);
+                    temp.add(res.analog);
+                    digi.add(res.gpio);
+                    if (running)
+                        setTimeout(loadValues, reloadPeriod);
+                } else running = false;
+            }
+        };
+        xh.open("GET", "/all", true);
+        xh.send(null);
+    };
+
+    function run() {
+        if (!running) {
+            running = true;
+            loadValues();
+        }
+    }
+
+    window.onload = function () {
+        load("graphs.js", function () {
+            var refreshInput = document.getElementById("refresh-rate");
+            refreshInput.value = reloadPeriod;
+            refreshInput.onchange = function (e) {
+                var value = parseInt(e.target.value);
+                reloadPeriod = (value > 0) ? value : 0;
+                e.target.value = reloadPeriod;
+            }
+            var stopButton = document.getElementById("stop-button");
+            stopButton.onclick = function (e) {
+                running = false;
+            }
+            var startButton = document.getElementById("start-button");
+            startButton.onclick = function (e) {
+                run();
+            }
+
+            // Example with 10K thermistor
+            //function calcThermistor(v) {
+            //  var t = Math.log(((10230000 / v) - 10000));
+            //  t = (1/(0.001129148+(0.000234125*t)+(0.0000000876741*t*t*t)))-273.15;
+            //  return (t>120)?0:Math.round(t*10)/10;
+            //}
+            //temp = createGraph(document.getElementById("analog"), "Temperature", 100, 128, 10, 40, false, "cyan", calcThermistor);
+            //createGraph(Element, Titel, Breite?, Höhe, Anfang, Ende, Grph zur X-Achse ausfüllen, Farbe, function(v) zur Skalierung)
+            //createDigiGraph(Element, Titel, Breite?, Höhe, DigiPins, Farbe)
+            temp = createGraph(document.getElementById("analog"), "Analog Input", 100, 128, 0, 1023, false, "cyan");
+            heap = createGraph(document.getElementById("heap"), "Current Heap", 100, 125, 0, 30000, true, "orange");
+            digi = createDigiGraph(document.getElementById("digital"), "GPIO", 100, 146, [12, 13, 4, 5], "gold");
+            run();
+        });
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+            a.type = "text/javascript",
+            a.async = !1,
+            a.onload = function () { n() },
+            document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

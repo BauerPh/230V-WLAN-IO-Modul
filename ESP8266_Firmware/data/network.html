@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>Netzwerkeinstellungen</title>
+
+<form>
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+            <td colspan="3" align="left">
+                <a href="admin.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>Netzwerkeinstellungen</strong>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>WLAN:</strong></td>
+        </tr>
+        <tr>
+            <td align="right">SSID:</td>
+            <td>
+                <input type="text" id="ssid" name="ssid" value="">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">Password:</td>
+            <td>
+                <input type="text" id="password" name="password" value="">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">DHCP:</td>
+            <td>
+                <input type="checkbox" id="dhcp" name="dhcp" onclick="javascript:enableDisableFields()">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">IP:</td>
+            <td>
+                <input type="text" id="ip" name="ip" maxlength="15">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">Netmask:</td>
+            <td>
+                <input type="text" id="nm" name="nm" maxlength="15">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">Gateway:</td>
+            <td>
+                <input type="text" id="gw" name="gw" maxlength="15">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">DNS:</td>
+            <td>
+                <input type="text" id="dns" name="dns" maxlength="15">
+            </td>
+            <td align="left">
+                <span class="infotext"></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <button type="button" id="send" name="send" class="btn btn--m btn--blue" onclick="javascript:post()">Speichern</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left">
+                <span id="info" class="infotext"><br /></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Netzwerkstatus:</strong></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><div id="connectionstate">N/A</div></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><strong>Netzwerke: </strong><span id="numNets"></span></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3">
+                <table>
+                    <thead bgcolor="#DDDDDD">
+                        <tr>
+                            <th style="width:200px">SSID</th>
+                            <th>Kanal</th>
+                            <th style="width:80px">Verschl.</th>
+                            <th>Signal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="networks"></tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <button type="button" id="refresh" name="refresh" class="btn btn--m btn--blue" onclick="javascript:getState(); getNetwork();">Scannen</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    window.onload = function () {
+        load("functions.js", function () {
+            setValues("/admin/values/network", function () { enableDisableFields() });
+            setTimeout(getNetwork, 1000);
+            setTimeout(getState, 3000);
+            for (i = 0; i < document.forms[0].length; i++) {
+                if ((document.forms[0].elements[i].type == 'text') || (document.forms[0].elements[i].type == 'password')) {
+                    document.forms[0].elements[i].onfocus = resetBgThis;
+                    document.forms[0].elements[i].onblur = checkValues;
+                }
+            }
+        });
+    }
+
+    function checkValues() {
+        var okay = testStr("ssid", "string", 1, 50);
+        okay &= testStr("ip", "ip");
+        okay &= testStr("nm", "ip");
+        okay &= testStr("gw", "ip");
+        okay &= testStr("dns", "ip");
+        return okay;
+    }
+
+    function enableDisableFields() {
+        document.getElementById("ip").disabled = document.getElementById("dhcp").checked;
+        document.getElementById("nm").disabled = document.getElementById("dhcp").checked;
+        document.getElementById("gw").disabled = document.getElementById("dhcp").checked;
+        document.getElementById("dns").disabled = document.getElementById("dhcp").checked;
+    }
+
+    function post() {
+        if (checkValues()) {
+            document.getElementById("send").disabled = true;
+            document.getElementById("info").innerHTML = "Bitte warten...";
+            var body = "ssid=" + document.getElementById("ssid").value + "&";
+            body += "password=" + document.getElementById("password").value + "&";
+            body += "dhcp=" + document.getElementById("dhcp").checked + "&";
+            body += "ip=" + document.getElementById("ip").value + "&";
+            body += "nm=" + document.getElementById("nm").value + "&";
+            body += "gw=" + document.getElementById("gw").value + "&";
+            body += "dns=" + document.getElementById("dns").value;
+            microAjax("admin/post/network", afterpost, body);
+        } else {
+            document.getElementById("info").innerHTML = "Bitte die rot hinterlegten Felder prüfen...";
+        }
+    }
+
+    function afterpost(res) {
+        if (res == "OK") {
+            document.getElementById("info").innerHTML = "gespeichert, <a href=\"javascript:restartESP()\">Neustart</a> erforderlich!";
+        } else {
+            document.getElementById("info").innerHTML = "Fehler! - es wurde nichts gespeichert!";
+        }
+        setValues("/admin/values/network");
+        document.getElementById("send").disabled = false;
+    }
+
+    function restartESP() {
+        document.getElementById("send").disabled = true;
+        document.getElementById("info").innerHTML = "...wird neu gestartet!"
+        setValues("/admin/actions/restart");
+        setTimeout(function () { window.location.reload(); }, 5000);
+    }
+
+    function getNetwork() {
+        document.getElementById("refresh").disabled = true;
+        request = new XMLHttpRequest();
+        request.open("GET", "/admin/actions/scan", true);
+        request.addEventListener("load", wifiScan);
+        request.send();
+        document.getElementById("numNets").innerHTML = "scanning...";
+    }
+
+    function getState() {
+        setValues("/admin/values/connectionstate");
+    }
+
+    function wifiScan(res) {
+        var arraytmp, array;
+
+        if (!res || (res.target.responseText == "[]")) {
+            setTimeout(function () { getNetwork(); }, 5000);
+            return;
+        }
+        arraytmp = JSON.parse(res.target.responseText);
+        arraytmp.sort(function (a, b) { return (a.ssid > b.ssid) ? 1 : ((b.ssid > a.ssid) ? -1 : 0); });
+        array = [arraytmp[0]];
+        for (var i = 1; i < arraytmp.length; i++) {
+            if (arraytmp[i].ssid == arraytmp[i - 1].ssid && arraytmp[i].secure == arraytmp[i - 1].secure) {
+                array[array.length - 1].channel = String(array[array.length - 1].channel) + ", " + String(arraytmp[i].channel);
+            } else {
+                array.push(arraytmp[i]);
+            }
+        }
+        array.sort(function (a, b) { return b.rssi - a.rssi });
+        document.getElementById("numNets").innerHTML = array.length;
+        var table = document.getElementById("networks");
+        table.innerHTML = "";
+        for (var i = 0; i < array.length; i++) {
+            var row = document.createElement("tr");
+            row.innerHTML = "<td><a href='javascript:selssid(\"" + array[i].ssid + "\")'>" + array[i].ssid + "</td><td>" + array[i].channel + "</td><td>" + securityStr(array[i].secure) + "</td><td>" + array[i].rssi + "</td>";
+            table.appendChild(row);
+        }
+        document.getElementById("refresh").disabled = false;
+    }
+
+    function selssid(value) {
+        document.getElementById("ssid").value = value;
+    }
+
+    function securityStr(security) {
+        if (security == 7) {
+            return 'Offen';
+        }
+        else if (security == 5) {
+            return 'WEP';
+        }
+        else if (security == 2) {
+            return 'WPA';
+        }
+        else if (security == 4) {
+            return 'WPA2';
+        }
+        else if (security == 8) {
+            return 'WPA/WPA2';
+        }
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+        a.type = "text/javascript",
+        a.async = !1,
+        a.onload = function () { n() },
+        document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

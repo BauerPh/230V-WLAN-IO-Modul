@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>IO Einstellungen</title>
+
+<form>
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+            <td align="left"><a href="admin.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>IO Einstellungen</strong></td>
+        </tr>
+        <tr><td align="left"><hr></td></tr>
+        <tr>
+            <td align="left">
+                <div class="tab">
+                    <button type="button" class="tablinks" onclick="toggleTab(this, 'in1')" id="tabDefault">Eingang 1</button>
+                    <button type="button" class="tablinks" onclick="toggleTab(this, 'in2')">Eingang 2</button>
+                    <button type="button" class="tablinks" onclick="toggleTab(this, 'out1')">Ausgang 1</button>
+                    <button type="button" class="tablinks" onclick="toggleTab(this, 'out2')">Ausgang 2</button>
+                </div>
+                <div id="tabcontentborder" class="tabcontentborder">
+                    <div id="in1" class="tabcontent">
+                        <table>
+                            <tr>
+                                <td align="left" colspan="3"><strong>MQTT Publish:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aktivieren:</td>
+                                <td><input type="checkbox" id="in1enablePublish" name="in1enablePublish" onclick="javascript:enableDisableFields()"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Topic:</td>
+                                <td><input type="text" id="in1cmd.topic" name="in1cmd.topic" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei ein:</td>
+                                <td><input type="text" id="in1cmd.payloadOn" name="in1cmd.payloadOn" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei aus:</td>
+                                <td><input type="text" id="in1cmd.payloadOff" name="in1cmd.payloadOff" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">QoS:</td>
+                                <td>
+                                    <select id="in1cmd.qos" name="in1cmd.qos">
+                                        <option value="0">0 (höchstens 1 mal)</option>
+                                        <option value="1">1 (mindestens 1 mal)</option>
+                                        <option value="2">2 (genau 1 mal)</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">retain:</td>
+                                <td><input type="checkbox" id="in1cmd.retain" name="in1cmd.retain"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><strong>Ausgang 1 steuern:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei ein:</td>
+                                <td>
+                                    <select id="in1ctrlOutput1FallingEdge" name="in1ctrlOutput1FallingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei aus:</td>
+                                <td>
+                                    <select id="in1ctrlOutput1RisingEdge" name="in1ctrlOutput1RisingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><strong>Ausgang 2 steuern:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei ein:</td>
+                                <td>
+                                    <select id="in1ctrlOutput2FallingEdge" name="in1ctrlOutput2FallingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei aus:</td>
+                                <td>
+                                    <select id="in1ctrlOutput2RisingEdge" name="in1ctrlOutput2RisingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="in2" class="tabcontent">
+                        <table>
+                            <tr><td align="left" colspan="3"><strong>MQTT Publish:</strong></td></tr>
+                            <tr>
+                                <td align="right">aktivieren:</td>
+                                <td><input type="checkbox" id="in2enablePublish" name="in2enablePublish" onclick="javascript:enableDisableFields()"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Topic:</td>
+                                <td><input type="text" id="in2cmd.topic" name="in2cmd.topic" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei ein:</td>
+                                <td><input type="text" id="in2cmd.payloadOn" name="in2cmd.payloadOn" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span> </td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei aus:</td>
+                                <td><input type="text" id="in2cmd.payloadOff" name="in2cmd.payloadOff" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">QoS:</td>
+                                <td>
+                                    <select id="in2cmd.qos" name="in2cmd.qos">
+                                        <option value="0">0 (höchstens 1 mal)</option>
+                                        <option value="1">1 (mindestens 1 mal)</option>
+                                        <option value="2">2 (genau 1 mal)</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">retain:</td>
+                                <td><input type="checkbox" id="in2cmd.retain" name="in2cmd.retain"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><strong>Ausgang 1 steuern:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei ein:</td>
+                                <td>
+                                    <select id="in2ctrlOutput1RisingEdge" name="in2ctrlOutput1RisingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei aus:</td>
+                                <td>
+                                    <select id="in2ctrlOutput1FallingEdge" name="in2ctrlOutput1FallingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><strong>Ausgang 2 steuern:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei ein:</td>
+                                <td>
+                                    <select id="in2ctrlOutput2RisingEdge" name="in2ctrlOutput2RisingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">bei aus:</td>
+                                <td>
+                                    <select id="in2ctrlOutput2FallingEdge" name="in2ctrlOutput2FallingEdge">
+                                        <option value="0">nicht steuern</option>
+                                        <option value="1">Einschalten</option>
+                                        <option value="2">Ausschalten</option>
+                                        <option value="3">Wechseln</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="out1" class="tabcontent">
+                        <table>
+                            <tr>
+                                <td align="left" colspan="3"><strong>MQTT Subscribe:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aktivieren:</td>
+                                <td>
+                                    <input type="checkbox" id="out1enableSubscribe" name="out1enableSubscribe" onclick="javascript:enableDisableFields()">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Topic:</td>
+                                <td>
+                                    <input type="text" id="out1cmd.topic" name="out1cmd.topic" maxlength="128" value="">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">ein bei Payload:</td>
+                                <td>
+                                    <input type="text" id="out1cmd.payloadOn" name="out1cmd.payloadOn" maxlength="128" value="">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aus bei Payload:</td>
+                                <td>
+                                    <input type="text" id="out1cmd.payloadOff" name="out1cmd.payloadOff" maxlength="128" value="">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">QoS:</td>
+                                <td>
+                                    <select id="out1cmd.qos" name="out1cmd.qos">
+                                        <option value="0">0 (höchstens 1 mal)</option>
+                                        <option value="1">1 (mindestens 1 mal)</option>
+                                        <option value="2">2 (genau 1 mal)</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><strong>MQTT Publish:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aktivieren:</td>
+                                <td><input type="checkbox" id="out1enablePublish" name="out1enablePublish" onclick="javascript:enableDisableFields()"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Topic:</td>
+                                <td><input type="text" id="out1state.topic" name="out1state.topic" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei ein:</td>
+                                <td><input type="text" id="out1state.payloadOn" name="out1state.payloadOn" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei aus:</td>
+                                <td><input type="text" id="out1state.payloadOff" name="out1state.payloadOff" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">QoS:</td>
+                                <td>
+                                    <select id="out1state.qos" name="out1state.qos">
+                                        <option value="0">0 (höchstens 1 mal)</option>
+                                        <option value="1">1 (mindestens 1 mal)</option>
+                                        <option value="2">2 (genau 1 mal)</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">retain:</td>
+                                <td><input type="checkbox" id="out1state.retain" name="out1state.retain"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Startwert:</td>
+                                <td>
+                                    <select id="out1initState" name="out1initState">
+                                        <option value="0">Aus</option>
+                                        <option value="1">Ein</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="out2" class="tabcontent">
+                        <table>
+                            <tr>
+                                <td align="left" colspan="3"><strong>MQTT Subscribe:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aktivieren:</td>
+                                <td>
+                                    <input type="checkbox" id="out2enableSubscribe" name="out2enableSubscribe" onclick="javascript:enableDisableFields()">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Topic:</td>
+                                <td>
+                                    <input type="text" id="out2cmd.topic" name="out2cmd.topic" maxlength="128" value="">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">ein bei Payload:</td>
+                                <td>
+                                    <input type="text" id="out2cmd.payloadOn" name="out2cmd.payloadOn" maxlength="128" value="">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aus bei Payload:</td>
+                                <td>
+                                    <input type="text" id="out2cmd.payloadOff" name="out2cmd.payloadOff" maxlength="128" value="">
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">QoS:</td>
+                                <td>
+                                    <select id="out2cmd.qos" name="out2cmd.qos">
+                                        <option value="0">0 (höchstens 1 mal)</option>
+                                        <option value="1">1 (mindestens 1 mal)</option>
+                                        <option value="2">2 (genau 1 mal)</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><strong>MQTT Publish:</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="right">aktivieren:</td>
+                                <td><input type="checkbox" id="out2enablePublish" name="out2enablePublish" onclick="javascript:enableDisableFields()"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Topic:</td>
+                                <td><input type="text" id="out2state.topic" name="out2state.topic" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei ein:</td>
+                                <td><input type="text" id="out2state.payloadOn" name="out2state.payloadOn" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Payload bei aus:</td>
+                                <td><input type="text" id="out2state.payloadOff" name="out2state.payloadOff" maxlength="128" value=""></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">QoS:</td>
+                                <td>
+                                    <select id="out2state.qos" name="out2state.qos">
+                                        <option value="0">0 (höchstens 1 mal)</option>
+                                        <option value="1">1 (mindestens 1 mal)</option>
+                                        <option value="2">2 (genau 1 mal)</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right">retain:</td>
+                                <td><input type="checkbox" id="out2state.retain" name="out2state.retain"></td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="3"><hr></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Startwert:</td>
+                                <td>
+                                    <select id="out2initState" name="out2initState">
+                                        <option value="0">Aus</option>
+                                        <option value="1">Ein</option>
+                                    </select>
+                                </td>
+                                <td align="left"><span class="infotext"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><button type="button" id="send" name="send" class="btn btn--m btn--blue" onclick="javascript:post()">Speichern</button></td>
+        </tr>
+        <tr>
+            <td align="left"><span id="info" class="infotext"><br /></span></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    window.onload = function () {
+        load("functions.js", function () {
+            document.getElementById("tabDefault").click();
+            setValues("/rest/io", function () { enableDisableFields(); });
+            for (i = 0; i < document.forms[0].length; i++) {
+                if ((document.forms[0].elements[i].type == 'text') || (document.forms[0].elements[i].type == 'password')) {
+                    document.forms[0].elements[i].onfocus = resetBgThis;
+                    document.forms[0].elements[i].onblur = checkValues;
+                }
+            }
+        });
+    }
+
+    function checkValues() {
+        var okay = true;
+        for (var i = 1; i <= 2; i++) {
+            if (!document.getElementById("in" + i + "enablePublish").checked) {
+                resetBg("in" + i + "cmd.topic");
+                resetBg("in" + i + "cmd.payloadOn");
+                resetBg("in" + i + "cmd.payloadOff");
+            } else {
+                okay &= testStr("in" + i + "cmd.topic", "mqtt_topic", 1, 128);
+                okay &= testStr("in" + i + "cmd.payloadOn", "string", 1, 128);
+                okay &= testStr("in" + i + "cmd.payloadOff", "string", 1, 128);
+            }
+            if (!document.getElementById("out" + i + "enableSubscribe").checked) {
+                resetBg("out" + i + "cmd.topic");
+                resetBg("out" + i + "cmd.payloadOn");
+                resetBg("out" + i + "cmd.payloadOff");
+            } else {
+                okay &= testStr("out" + i + "cmd.topic", "mqtt_topic", 1, 128);
+                okay &= testStr("out" + i + "cmd.payloadOn", "string", 1, 128);
+                okay &= testStr("out" + i + "cmd.payloadOff", "string", 1, 128);
+            }
+            if (!document.getElementById("out" + i + "enablePublish").checked) {
+                resetBg("out" + i + "state.topic");
+                resetBg("out" + i + "state.payloadOn");
+                resetBg("out" + i + "state.payloadOff");
+            } else {
+                okay &= testStr("out" + i + "state.topic", "mqtt_topic", 1, 128);
+                okay &= testStr("out" + i + "state.payloadOn", "string", 1, 128);
+                okay &= testStr("out" + i + "state.payloadOff", "string", 1, 128);
+            }
+        }
+        return okay;
+    }
+
+    function enableDisableFields() {
+        for (var i = 1; i <= 2; i++) {
+            document.getElementById("in" + i + "cmd.topic").disabled = !document.getElementById("in" + i + "enablePublish").checked;
+            document.getElementById("in" + i + "cmd.payloadOn").disabled = !document.getElementById("in" + i + "enablePublish").checked;
+            document.getElementById("in" + i + "cmd.payloadOff").disabled = !document.getElementById("in" + i + "enablePublish").checked;
+            document.getElementById("in" + i + "cmd.qos").disabled = !document.getElementById("in" + i + "enablePublish").checked;
+            document.getElementById("in" + i + "cmd.retain").disabled = !document.getElementById("in" + i + "enablePublish").checked;
+            document.getElementById("out" + i + "cmd.topic").disabled = !document.getElementById("out" + i + "enableSubscribe").checked;
+            document.getElementById("out" + i + "cmd.payloadOn").disabled = !document.getElementById("out" + i + "enableSubscribe").checked;
+            document.getElementById("out" + i + "cmd.payloadOff").disabled = !document.getElementById("out" + i + "enableSubscribe").checked;
+            document.getElementById("out" + i + "cmd.qos").disabled = !document.getElementById("out" + i + "enableSubscribe").checked;
+            document.getElementById("out" + i + "state.topic").disabled = !document.getElementById("out" + i + "enablePublish").checked;
+            document.getElementById("out" + i + "state.payloadOn").disabled = !document.getElementById("out" + i + "enablePublish").checked;
+            document.getElementById("out" + i + "state.payloadOff").disabled = !document.getElementById("out" + i + "enablePublish").checked;
+            document.getElementById("out" + i + "state.qos").disabled = !document.getElementById("out" + i + "enablePublish").checked;
+            document.getElementById("out" + i + "state.retain").disabled = !document.getElementById("out" + i + "enablePublish").checked;
+        }
+        checkValues();
+    }
+
+    function post() {
+        if (checkValues()) {
+            document.getElementById("send").disabled = true;
+            document.getElementById("info").innerHTML = "Bitte warten...";
+            var body = "";
+            for (var i = 1; i <= 2; i++) {
+                //input
+                body += "in" + i + "enablePublish=" + document.getElementById("in" + i + "enablePublish").checked + "&";
+                body += "in" + i + "cmd.topic=" + document.getElementById("in" + i + "cmd.topic").value + "&";
+                body += "in" + i + "cmd.payloadOn=" + document.getElementById("in" + i + "cmd.payloadOn").value + "&";
+                body += "in" + i + "cmd.payloadOff=" + document.getElementById("in" + i + "cmd.payloadOff").value + "&";
+                body += "in" + i + "cmd.qos=" + document.getElementById("in" + i + "cmd.qos").value + "&";
+                body += "in" + i + "cmd.retain=" + document.getElementById("in" + i + "cmd.retain").checked + "&";
+                body += "in" + i + "ctrlOutput1RisingEdge=" + document.getElementById("in" + i + "ctrlOutput1RisingEdge").value + "&";
+                body += "in" + i + "ctrlOutput1FallingEdge=" + document.getElementById("in" + i + "ctrlOutput1FallingEdge").value + "&";
+                body += "in" + i + "ctrlOutput2RisingEdge=" + document.getElementById("in" + i + "ctrlOutput2RisingEdge").value + "&";
+                body += "in" + i + "ctrlOutput2FallingEdge=" + document.getElementById("in" + i + "ctrlOutput2FallingEdge").value + "&";
+                body += "out" + i + "enableSubscribe=" + document.getElementById("out" + i + "enableSubscribe").checked + "&";
+                body += "out" + i + "cmd.topic=" + document.getElementById("out" + i + "cmd.topic").value + "&";
+                body += "out" + i + "cmd.payloadOn=" + document.getElementById("out" + i + "cmd.payloadOn").value + "&";
+                body += "out" + i + "cmd.payloadOff=" + document.getElementById("out" + i + "cmd.payloadOff").value + "&";
+                body += "out" + i + "cmd.qos=" + document.getElementById("out" + i + "cmd.qos").value + "&";
+                body += "out" + i + "enablePublish=" + document.getElementById("out" + i + "enablePublish").checked + "&";
+                body += "out" + i + "state.topic=" + document.getElementById("out" + i + "state.topic").value + "&";
+                body += "out" + i + "state.payloadOn=" + document.getElementById("out" + i + "state.payloadOn").value + "&";
+                body += "out" + i + "state.payloadOff=" + document.getElementById("out" + i + "state.payloadOff").value + "&";
+                body += "out" + i + "state.qos=" + document.getElementById("out" + i + "state.qos").value + "&";
+                body += "out" + i + "state.retain=" + document.getElementById("out" + i + "state.retain").checked + "&";
+                body += "out" + i + "initState=" + document.getElementById("out" + i + "initState").value;
+                if (i == 1) body += "&";
+            }            
+            microAjax("/post/io", afterpost, body);
+        } else {
+            document.getElementById("info").innerHTML = "Bitte die rot hinterlegten Felder prüfen...";
+        }
+    }
+
+    function afterpost(res) {
+        if (res == "OK") {
+            document.getElementById("info").innerHTML = "gespeichert!";
+        } else {
+            document.getElementById("info").innerHTML = "Fehler! - es wurde nichts gespeichert!";
+        }
+        setValues("/rest/io", function () { enableDisableFields() });
+        document.getElementById("send").disabled = false;
+    }
+
+    function toggleTab(but, id) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(id).style.display = "block";
+        but.className += " active";
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+            a.type = "text/javascript",
+            a.async = !1,
+            a.onload = function () { n() },
+            document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

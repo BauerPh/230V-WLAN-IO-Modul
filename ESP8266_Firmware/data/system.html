@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>Systemeinstellungen</title>
+
+<form>
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+            <td colspan="3" align="left"><a href="admin.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>Systemeinstellungen</strong></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="3"><a href="edit.html" class="btn btn--m btn--blue" style="width:250px">FS Editor</a></td>
+        </tr>
+        <tr>
+            <td  colspan="3"><a href="info.html"  class="btn btn--m btn--blue" style="width:250px">ESP Monitor</a></td>
+        </tr> 
+        <tr>
+            <td colspan="3"><a href="update.html" class="btn btn--m btn--blue" style="width:250px">Update</a></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="3"><a href="javascript:restartESP()" class="btn btn--m btn--blue" style="width:250px">Neustart</a></td>
+        </tr>
+        <tr>
+            <td colspan="3"><a href="javascript:factoryReset()" class="btn btn--m btn--blue" style="width:250px">Werkseinstellungen</a></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><hr></td>
+        </tr>
+        <tr>
+            <td align="right">Gerätename:</td>
+            <td><input type="text" id="devicename" name="devicename" value="" maxlength="30"></td>
+            <td align="left"><span class="infotext">(max. 30 Zeichen)</span></td>
+        </tr>
+        <tr>
+            <td align="right">Updateserver:</td>
+            <td><input type="text" id="updateServer" name="updateServer" value="" maxlength="100"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><br /></td>
+        </tr>
+        <tr>
+            <td style="width:120px" align="right">Passwortschutz?:</td>
+            <td><input type="checkbox" id="wwwauth" name="wwwauth" onclick="javascript:enableDisableFields()"></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Benutzername:</td>
+            <td><input type="text" id="wwwuser" name="wwwuser" value=""></td>
+            <td align="left"><span class="infotext">(für Webserver)</span></td>
+        </tr>
+        <tr>
+            <td align="right">Passwort:</td>
+            <td><input type="password" id="wwwpass" name="wwwpass" value=""></td>
+            <td align="left"><span class="infotext">(für Webserver, AP und OTA)</span></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center"><button type="button" id="send" name="send" class="btn btn--m btn--blue" onclick="javascript:post()">Speichern</button></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><span id="info" class="infotext"><br /></span></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    window.onload = function () {
+        load("functions.js", function () {
+            setValues("/admin/values/system", function () { enableDisableFields() });
+            for (i = 0; i < document.forms[0].length; i++) {
+                if ((document.forms[0].elements[i].type == 'text') || (document.forms[0].elements[i].type == 'password')) {
+                    document.forms[0].elements[i].onfocus = resetBgThis;
+                    document.forms[0].elements[i].onblur = checkValues;
+                }
+            }          
+        });
+    }
+
+    function checkValues() {
+        var okay = true;
+        okay &= testStr("devicename", "string", 1, 30);
+        okay &= testStr("updateServer", "string", 1, 100);
+        if (!document.getElementById("wwwauth").checked) {
+            resetBg("wwwuser");
+            resetBg("wwwpass");
+        }
+        else {
+            okay &= testStr("wwwuser", "string", 1, 30);
+            okay &= testStr("wwwpass", "string", 1, 30);
+        }
+        return okay;
+    }
+
+    
+    function enableDisableFields() {
+        document.getElementById("wwwuser").disabled = !document.getElementById("wwwauth").checked;
+        document.getElementById("wwwpass").disabled = !document.getElementById("wwwauth").checked;
+    }
+
+    function post() {
+        if (checkValues()) {
+            document.getElementById("send").disabled = true;
+            document.getElementById("info").innerHTML = "Bitte warten...";
+            var body = "devicename=" + document.getElementById("devicename").value + "&";
+            body += "updateServer=" + document.getElementById("updateServer").value + "&";
+            body += "wwwauth=" + document.getElementById("wwwauth").checked + "&";
+            body += "wwwuser=" + document.getElementById("wwwuser").value + "&";
+            body += "wwwpass=" + document.getElementById("wwwpass").value;
+            microAjax("admin/post/system", afterpost, body);
+        }
+        else {
+            document.getElementById("info").innerHTML = "Bitte die rot hinterlegten Felder prüfen...";
+        }
+    }
+
+    function afterpost(res) {
+        if (res == "OK") {
+            document.getElementById("info").innerHTML = "gespeichert!";
+        } else if (res == "OK-RESTART") {
+            document.getElementById("info").innerHTML = "gespeichert, <a href=\"javascript:restartESP()\">Neustart</a> erforderlich!";
+        } else {
+            document.getElementById("info").innerHTML = "Fehler! - es wurde nichts gespeichert!";
+        }
+        setValues("/admin/values/system", function () { enableDisableFields() });
+        document.getElementById("send").disabled = false;
+    }
+
+    function restartESP() {
+        document.getElementById("send").disabled = true;
+        document.getElementById("info").innerHTML = "...wird neu gestartet!"
+        setValues("/admin/actions/restart");
+        setTimeout(function () { window.location.reload(); }, 5000);
+    }
+
+    function factoryReset() {
+        var check = confirm('Wollen Sie wirklich auf Werkseinstellungen zurücksetzen?');
+        if (check == true) {
+            microAjax("/admin/actions/factoryReset", function (r) {
+                if (r == "OK") document.getElementById("info").innerHTML = "Werkseinstellungen wiederhergestellt, <a href=\"javascript:restartESP()\">Neustart</a> erforderlich!";
+            }, "ack=OK");
+        }
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+            a.type = "text/javascript",
+            a.async = !1,
+            a.onload = function () { n() },
+            document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

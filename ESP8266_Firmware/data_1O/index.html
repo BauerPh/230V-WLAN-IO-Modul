@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>230V WLAN IO-Modul</title>
+
+<table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+        <td colspan="2" align="left"><strong>230V WLAN IO-Modul</strong></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="2"><hr></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="2"><strong>Netzwerk</strong></td>
+    </tr>
+    <tr>
+        <td align="right">SSID:</td>
+        <td><span id="x_ssid"></span></td>
+    </tr>
+    <tr>
+        <td align="right">IP:</td>
+        <td><span id="x_ip"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Netzmaske:</td>
+        <td><span id="x_netmask"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Gateway:</td>
+        <td><span id="x_gateway"></span></td>
+    </tr>
+    <tr>
+        <td align="right">DNS:</td>
+        <td><span id="x_dns"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Mac:</td>
+        <td><span id="x_mac"></span></td>
+    </tr>
+    <tr>
+        <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="2"><strong>NTP</strong></td>
+    </tr>
+    <tr>
+        <td align="right">Datum:</td>
+        <td><span id="x_ntp_date"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Zeit:</td>
+        <td><span id="x_ntp_time"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Letzter Sync:</td>
+        <td><span id="x_ntp_sync"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Uptime:</td>
+        <td><span id="x_uptime"></span></td>
+    </tr>
+    <tr>
+        <td align="right">Letzter Boot:</td>
+        <td><span id="x_last_boot"></span></td>
+    </tr>
+    <tr>
+        <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="2"><strong>Ausgänge / Eingänge</strong></td>
+    </tr>
+    <tr>
+        <td align="right">Ausgang:</td>
+        <td><button id="x_output1" onclick="javascript:toggleOutput(1)">--</button></td>
+    </tr>
+    <tr>
+        <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+        <td align="left" colspan="2"><strong>MQTT</strong></td>
+    </tr>
+    <tr>
+        <td align="right">Status:</td>
+        <td><span id="mqttState">--</span></td>
+    </tr>
+    <tr>
+        <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center"><a href="admin.html" style="width:250px" class="btn btn--m btn--blue">Adminmenü</a></td>
+    </tr>
+</table>
+
+<script>
+    window.onload = function () {
+        load("functions.js", function () {
+            initEvt();
+            GetState();            
+        });
+    }
+
+    function GetState() {
+        setValues("/admin/values/info");
+    }
+
+    function toggleOutput(output) {
+        microAjax("/post/output", function () { }, ("nr=" + output));
+    }
+
+    function initEvt() {
+        var userEvs = new EventSource('/userevents');
+        userEvs.addEventListener('outputs', function (e) {
+            var jsonOutputs = JSON.parse(e.data);
+            if (jsonOutputs.output1 == "1") document.getElementById("x_output1").innerHTML = "ON";
+            else if (jsonOutputs.output1 == "0") document.getElementById("x_output1").innerHTML = "OFF";
+        }, false);
+        userEvs.addEventListener('mqttState', function (e) {
+            if (e.data == "1") document.getElementById("mqttState").innerHTML = "verbunden";
+            else document.getElementById("mqttState").innerHTML = "getrennt";
+        }, false);
+        var evs = new EventSource('/events');
+        evs.addEventListener('timeDate', function (e) {
+            var jsonTimeDate = JSON.parse(e.data);
+            document.getElementById("x_ntp_time").innerHTML = jsonTimeDate.time;
+            document.getElementById("x_ntp_date").innerHTML = jsonTimeDate.date;
+            document.getElementById("x_ntp_sync").innerHTML = jsonTimeDate.lastSync;
+            document.getElementById("x_uptime").innerHTML = jsonTimeDate.uptime;
+            document.getElementById("x_last_boot").innerHTML = jsonTimeDate.lastBoot;
+        }, false);
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+            a.type = "text/javascript",
+            a.async = !1,
+            a.onload = function () { n() },
+            document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>

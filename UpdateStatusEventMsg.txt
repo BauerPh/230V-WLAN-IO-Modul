@@ -1,0 +1,30 @@
+0	
+1	SPIFFS Update gestartet
+2	SPIFFS Update läuft
+3	FW Update gestartet
+4	FW Update läuft
+5
+6	Update verfügbar aber Speicher zu klein!
+7	Update verfügbar!
+8	kein Update verfügbar
+9   Update erfolgreich abgeschlossen
+
+10 ERRORS
+
+10.0 - 10.99 Fehlermeldungen
+
+0	None
+1	invalid parsestate
+2	invalid http response
+3	invalid http statuscode
+4	invalid header
+5	connect to http server failed
+6	http server disconnected
+7	no version for this model available
+8	error begin update
+9	error end update
+10	error SPIFFS / FW chose
+11	error updatestate
+
+20 Verbindung zum Updateserver fehlgeschlagen
+21 Update läuft bereits

@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>NTP Einstellungen</title>
+
+<form>
+    <table border="0" cellspacing="0" cellpadding="3">
+        <tr>
+            <td colspan="3" align="left"><a href="admin.html" class="btn btn--s">&lt;</a>&nbsp;&nbsp;<strong>NTP Einstellungen</strong></td>
+        </tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td align="right">NTP Server:</td>
+            <td><input type="text" id="ntpserver" name="ntpserver" maxlength="100" value=""></td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Update:</td>
+            <td><input type="text" id="update" name="update" size="3" maxlength="3" value=""></td>
+            <td align="left"><span class="infotext">(1~999 Minuten, 0=deaktiviert)</span></td>
+        </tr>
+        <tr>
+            <td align="right">Timezone:</td>
+            <td>
+                <select id="tz" name="tz">
+                    <option value="-120">(GMT-12:00)</option>
+                    <option value="-110">(GMT-11:00)</option>
+                    <option value="-100">(GMT-10:00)</option>
+                    <option value="-90">(GMT-09:00)</option>
+                    <option value="-80">(GMT-08:00)</option>
+                    <option value="-70">(GMT-07:00)</option>
+                    <option value="-60">(GMT-06:00)</option>
+                    <option value="-50">(GMT-05:00)</option>
+                    <option value="-40">(GMT-04:00)</option>
+                    <option value="-35">(GMT-03:30)</option>
+                    <option value="-30">(GMT-03:00)</option>
+                    <option value="-20">(GMT-02:00)</option>
+                    <option value="-10">(GMT-01:00)</option>
+                    <option value="0">(GMT+00:00)</option>
+                    <option value="10" selected="selected">(GMT+01:00)</option>
+                    <option value="20">(GMT+02:00)</option>
+                    <option value="30">(GMT+03:00)</option>
+                    <option value="35">(GMT+03:30)</option>
+                    <option value="40">(GMT+04:00)</option>
+                    <option value="45">(GMT+04:30)</option>
+                    <option value="50">(GMT+05:00)</option>
+                    <option value="55">(GMT+05:30)</option>
+                    <option value="57">(GMT+05:45)</option>
+                    <option value="60">(GMT+06:00)</option>
+                    <option value="65">(GMT+06:30)</option>
+                    <option value="70">(GMT+07:00)</option>
+                    <option value="80">(GMT+08:00)</option>
+                    <option value="90">(GMT+09:00)</option>
+                    <option value="95">(GMT+09:30)</option>
+                    <option value="100">(GMT+10:00)</option>
+                    <option value="110">(GMT+11:00)</option>
+                    <option value="120">(GMT+12:00)</option>
+                    <option value="120">(GMT+12:00)</option>
+                    <option value="130">(GMT+13:00)</option>
+                </select>
+            </td>
+            <td align="left"><span class="infotext"></span></td>
+        </tr>
+        <tr>
+            <td align="right">Auto Sommerzeit:</td>
+            <td><input type="checkbox" id="dst" name="dst"></td>
+            <td align="left"><span class="infotext"></span></td>
+        <tr>
+        <tr>
+            <td align="left" colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center"><button type="button" id="send" name="send" class="btn btn--m btn--blue" onclick="javascript:post()">Speichern</button></td>
+        </tr>
+        <tr>
+            <td colspan="3" align="left"><span id="info" class="infotext"><br /></span></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    window.onload = function () {
+        load("functions.js", function () {
+            setValues("/admin/values/ntp");
+            for (i = 0; i < document.forms[0].length; i++) {
+                if ((document.forms[0].elements[i].type == 'text') || (document.forms[0].elements[i].type == 'password')) {
+                    document.forms[0].elements[i].onfocus = resetBgThis;
+                    document.forms[0].elements[i].onblur = checkValues;
+                }
+            }
+        });
+    }
+
+    function checkValues() {
+        var okay = testStr("ntpserver", "string", 1, 50);
+        okay &= testStr("update", "number", 0, 999);
+        return okay;
+    }
+
+    function post() {
+        if (checkValues()) {
+            document.getElementById("send").disabled = true;
+            document.getElementById("info").innerHTML = "Bitte warten...";
+            var body = "ntpserver=" + document.getElementById("ntpserver").value + "&";
+            body += "update=" + document.getElementById("update").value + "&";
+            body += "tz=" + document.getElementById("tz").value + "&";
+            body += "dst=" + document.getElementById("dst").checked;
+            microAjax("/admin/post/ntp", afterpost, body);
+        } else {
+            document.getElementById("info").innerHTML = "Bitte die rot hinterlegten Felder prüfen...";
+        }
+    }
+
+    function afterpost(res) {
+        if (res == "OK") {
+            document.getElementById("info").innerHTML = "gespeichert!";
+        } else {
+            document.getElementById("info").innerHTML = "Fehler! - es wurde nichts gespeichert!";
+        }
+        setValues("/admin/values/ntp");
+        document.getElementById("send").disabled = false;
+    }
+
+    function load(e, n) {
+        var a = document.createElement("script");
+        a.src = e,
+        a.type = "text/javascript",
+        a.async = !1,
+        a.onload = function () { n() },
+        document.getElementsByTagName("head")[0].appendChild(a)
+    }
+</script>
