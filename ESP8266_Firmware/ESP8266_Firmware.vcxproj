@@ -110,7 +110,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties custom_esp8266_generic_FlashMode="qio" arduino.upload.port="COM7" />
+      <UserProperties custom_esp8266_generic_FlashMode="qio" custom_esp8266_generic_FlashSize="1M192" arduino.upload.port="COM7" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
