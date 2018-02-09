@@ -13,15 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="SPIFFS_1O">
-      <UniqueIdentifier>{3ff396d5-5e63-4f7b-af1e-6ad83732d0b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SPIFFS_2O">
-      <UniqueIdentifier>{37e26799-bfc4-4f8f-8e49-4dc84d87f656}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SPIFFS_allg">
-      <UniqueIdentifier>{6d22126d-6a9c-4502-9556-a3ddddf097c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{491acdff-f0d1-49fa-b8ce-0b462c07b47b}</UniqueIdentifier>
     </Filter>
