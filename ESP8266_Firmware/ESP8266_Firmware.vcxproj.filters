@@ -36,12 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ESP8266_Firmware.ino" />
-    <None Include="data_1O\index.html">
-      <Filter>data_1O</Filter>
-    </None>
-    <None Include="data_1O\io.html">
-      <Filter>data_1O</Filter>
-    </None>
     <None Include="data\admin.html">
       <Filter>data</Filter>
     </None>
@@ -74,12 +68,6 @@
     </None>
     <None Include="data\update.html">
       <Filter>data</Filter>
-    </None>
-    <None Include="data_2O\index.html">
-      <Filter>data_2O</Filter>
-    </None>
-    <None Include="data_2O\io.html">
-      <Filter>data_2O</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
