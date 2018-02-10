@@ -86,6 +86,10 @@
     <None Include="data\style.css" />
     <None Include="data\system.html" />
     <None Include="data\update.html" />
+    <None Include="data_ESP_230V_IO_UP_1O\index.html" />
+    <None Include="data_ESP_230V_IO_UP_1O\io.html" />
+    <None Include="data_ESP_230V_IO_UP_2O\index.html" />
+    <None Include="data_ESP_230V_IO_UP_2O\io.html" />
     <None Include="ESP8266_Firmware.ino">
       <FileType>CppCode</FileType>
     </None>

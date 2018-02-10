@@ -16,10 +16,10 @@
     <Filter Include="data">
       <UniqueIdentifier>{491acdff-f0d1-49fa-b8ce-0b462c07b47b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data_1O">
+    <Filter Include="data_ESP_230V_IO_UP_1O">
       <UniqueIdentifier>{a71166b6-ca69-4d65-a60f-580eb65f7f58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data_2O">
+    <Filter Include="data_ESP_230V_IO_UP_2O">
       <UniqueIdentifier>{836c3982-7e7f-478c-aefc-110ce0cc723a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -68,6 +68,18 @@
     </None>
     <None Include="data\update.html">
       <Filter>data</Filter>
+    </None>
+    <None Include="data_ESP_230V_IO_UP_1O\index.html">
+      <Filter>data_ESP_230V_IO_UP_1O</Filter>
+    </None>
+    <None Include="data_ESP_230V_IO_UP_1O\io.html">
+      <Filter>data_ESP_230V_IO_UP_1O</Filter>
+    </None>
+    <None Include="data_ESP_230V_IO_UP_2O\index.html">
+      <Filter>data_ESP_230V_IO_UP_2O</Filter>
+    </None>
+    <None Include="data_ESP_230V_IO_UP_2O\io.html">
+      <Filter>data_ESP_230V_IO_UP_2O</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
