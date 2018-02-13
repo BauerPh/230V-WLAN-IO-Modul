@@ -10,6 +10,8 @@ For now the language of the Webserver is German.
   - [Functions](#functions)
   - [Installation using precompiled binaries](#installation-using-precompiled-binaries)
   - [First Configuration](#first-configuration)
+  - [MQTT Configuration](#mqtt-configuration)
+  - [Input and Output Configuration](#input-and-output-configuration)
   - [Setup your own firmware update server](#setup-your-own-firmware-update-server)
   - [Using the sourcecode](#using-the-sourcecode)
     - [Dependencies](#dependencies)
@@ -29,7 +31,7 @@ For now the language of the Webserver is German.
 - Config is stored on SPIFFS
  
 ## Installation using precompiled binaries
-1. Download [nodemcu-flasher](https://github.com/nodemcu/nodemcu-flasher/raw/master/Win32/Release/ESP8266Flasher.exe "NODEMCU FIRMWARE PROGRAMMER")
+1. Download [nodemcu-flasher](https://github.com/nodemcu/nodemcu-flasher "NODEMCU FIRMWARE PROGRAMMER") *.exe file
 2. Download latest [release](https://github.com/BauerPh/230V-WLAN-IO-Modul/releases)
    - use `ESP_230V_IO_UP_2O.bin` and `ESP_230V_IO_UP_2O_SPIFFS.bin` for the *ESP8266 230V I/O Modul* by luani
 3. Open *nodemcu-flasher*
@@ -37,12 +39,31 @@ For now the language of the Webserver is German.
 5. Configure Nodemcu Firmware Programmer:<br>
 ![nodemcuflasher_advanced](readme/nodemcuflasher_advanced.jpg "Advanced")
 6. Select binaries downloaded in Step 2 and don't forget to tick the two boxes!:<br>
-![nodemcuflasher_advanced](readme/nodemcuflasher_config.jpg "Config")
+![nodemcuflasher_config](readme/nodemcuflasher_config.jpg "Config")
 7. Select COM-Port and press *Flash*:<br>
-![nodemcuflasher_advanced](readme/nodemcuflasher_operation.jpg "Operation")
+![nodemcuflasher_operation](readme/nodemcuflasher_operation.jpg "Operation")
 8. Thats it! Restart ESP and try to connect to it's WiFi Hotspot!
 
 ## First configuration
+After flashing the firmware the module should appear as a WiFi Acces Point (AP-Mode).
+- Name of Acces Point: `ESP...`
+- Connect to it
+- Open `http://192.168.4.1` in your Webbrowser. It should look like this:<br>
+![webserver_start](readme/webserver_start.jpg "Start")
+- Go to *ADMINMENÜ* -> *NETZWERKEINSTELLUNGEN*:<br>
+![webserver_network](readme/webserver_network.jpg "Netzwerkeinstellungen")
+- Set your WiFi & Network Config here and press *SPEICHERN*:<br>
+![webserver_saved](readme/webserver_saved.jpg)
+- Press *Neustart* to restart the ESP
+- Now the ESP tries to connect to your WiFi network, it will no longer be available as a AP!
+- If the ESP fails connecting to the WiFi network, it will open a AP again after about 30 seconds.
+- After another 30 seconds the ESP tries to connect to the WiFi network again (if no client is connected to the AP).
+- After a WiFi connection is established the ESP will never go to AP Mode again even when it has lost connection. You need to restart it manually (Power off, Power on) to get in AP Mode again.
+
+## MQTT Configuration
+TODO
+
+## Input and Output Configuration
 TODO
 
 ## Setup your own firmware update server
