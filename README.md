@@ -10,7 +10,8 @@ For now the language of the Webserver is German.
   - [Functions](#functions)
   - [Installation using precompiled binaries](#installation-using-precompiled-binaries)
   - [First Configuration](#first-configuration)
-  - [Using the sourcecode](#Using-the-sourcecode)
+  - [Setup your own firmware update server](#setup-your-own-firmware-update-server)
+  - [Using the sourcecode](#using-the-sourcecode)
     - [Dependencies](#dependencies)
 
 ## Functions
@@ -29,15 +30,15 @@ For now the language of the Webserver is German.
  
 ## Installation using precompiled binaries
 1. Download [nodemcu-flasher](https://github.com/nodemcu/nodemcu-flasher/raw/master/Win32/Release/ESP8266Flasher.exe "NODEMCU FIRMWARE PROGRAMMER")
-2. Download latest [release](releases)
+2. Download latest [release](https://github.com/BauerPh/230V-WLAN-IO-Modul/releases)
    - use `ESP_230V_IO_UP_2O.bin` and `ESP_230V_IO_UP_2O_SPIFFS.bin` for the *ESP8266 230V I/O Modul* by luani
 3. Open *nodemcu-flasher*
 4. Connect your ESP and bring it in flash mode
-5. Configure Nodemcu Firmware Programmer:
+5. Configure Nodemcu Firmware Programmer:<br>
 ![nodemcuflasher_advanced](readme/nodemcuflasher_advanced.jpg "Advanced")
-6. Select binaries downloaded in Step 2 and don't forget to tick the two boxes!:
+6. Select binaries downloaded in Step 2 and don't forget to tick the two boxes!:<br>
 ![nodemcuflasher_advanced](readme/nodemcuflasher_config.jpg "Config")
-7. Select COM-Port and press *Flash*:
+7. Select COM-Port and press *Flash*:<br>
 ![nodemcuflasher_advanced](readme/nodemcuflasher_operation.jpg "Operation")
 8. Thats it! Restart ESP and try to connect to it's WiFi Hotspot!
 
@@ -50,7 +51,7 @@ TODO
 ## Using the sourcecode
 The best way is to use Visual Micro Extension for Microsoft Visual Studio
 
-#### Dependencies
+### Dependencies
 - `FSWebServerLib` Async Webserver Library by **BauerPh** https://github.com/BauerPh/FSWebServerLib
 - `JSONtoSPIFFS` JSON to SPIFFS Library by **BauerPh** https://github.com/BauerPh/JSONtoSPIFFS
 - `Time` Arduino Time Library by **Paul Stoffregen** https://github.com/PaulStoffregen/Time
