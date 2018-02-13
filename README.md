@@ -32,7 +32,7 @@ For now the language of the Webserver is German.
  
 ## Installation using precompiled binaries
 1. Download [nodemcu-flasher](https://github.com/nodemcu/nodemcu-flasher "NODEMCU FIRMWARE PROGRAMMER") *.exe file
-2. Download latest [release](https://github.com/BauerPh/230V-WLAN-IO-Modul/releases)
+2. Download latest release [![Latest release](https://img.shields.io/github/release/BauerPh/230V-WLAN-IO-Modul.svg)](https://github.com/BauerPh/230V-WLAN-IO-Modul/releases/latest/)
    - use `ESP_230V_IO_UP_2O.bin` and `ESP_230V_IO_UP_2O_SPIFFS.bin` for the *ESP8266 230V I/O Modul* by luani
 3. Open *nodemcu-flasher*
 4. Connect your ESP and bring it in flash mode
