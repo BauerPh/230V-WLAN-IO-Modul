@@ -1,4 +1,4 @@
-# 230V-WLAN-IO-Modul
+# 230V-WLAN-IO-Modul [![Build Status](https://api.travis-ci.org/BauerPh/230V-WLAN-IO-Modul.svg?branch=master)](https://travis-ci.org/BauerPh/230V-WLAN-IO-Modul)
 This ESP8266 Firmware is developed to run on the *ESP8266 230V I/O Modul* developed by **luani**.<br>
 You can find luanis project page here: https://luani.de/projekte/esp8266-hvio
 
@@ -81,3 +81,4 @@ I recommend using the Visual Micro Extension for Microsoft Visual Studio
 - `ESPAsyncWebServer` Async HTTP and WebSocket Server by **Me No Dev** https://github.com/me-no-dev/ESPAsyncWebServer
 - `ArduinoJson` JSON Library by **Benoît Blanchon** https://github.com/bblanchon/ArduinoJson
 - `async-mqtt-client` asynchronous MQTT client by **Marvin Roger** https://github.com/marvinroger/async-mqtt-client
+- `Bounce2` Debouncing library by **Thomas O Fredericks** https://github.com/thomasfredericks/Bounce2

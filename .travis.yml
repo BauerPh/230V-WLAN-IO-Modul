@@ -11,6 +11,7 @@ install:
   - git clone https://github.com/me-no-dev/ESPAsyncWebServer $HOME/arduino_ide/libraries/ESPAsyncWebServer
   - git clone https://github.com/bblanchon/ArduinoJson $HOME/arduino_ide/libraries/ArduinoJson
   - git clone https://github.com/marvinroger/async-mqtt-client $HOME/arduino_ide/libraries/async-mqtt-client
+  - git clone https://github.com/thomasfredericks/Bounce2 $HOME/arduino_ide/libraries/Bounce2
 script:
   - build_platform esp8266
 notifications:
