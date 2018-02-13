@@ -2,6 +2,14 @@ language: c
 sudo: false
 before_install:
   - source <(curl -SLs https://raw.githubusercontent.com/${TRAVIS_REPO_SLUG}/${TRAVIS_BRANCH}/install.sh)
+install:
+  - git clone https://github.com/BauerPh/FSWebServerLib $HOME/arduino_ide/libraries/FSWebServerLib
+  - git clone https://github.com/BauerPh/JSONtoSPIFFS $HOME/arduino_ide/libraries/JSONtoSPIFFS
+  - git clone https://github.com/PaulStoffregen/Time $HOME/arduino_ide/libraries/Time
+  - git clone https://github.com/gmag11/NtpClient $HOME/arduino_ide/libraries/NtpClient
+  - git clone https://github.com/me-no-dev/ESPAsyncTCP $HOME/arduino_ide/libraries/ESPAsyncTCP
+  - git clone https://github.com/me-no-dev/ESPAsyncWebServer $HOME/arduino_ide/libraries/ESPAsyncWebServer
+  - git clone https://github.com/bblanchon/ArduinoJson $HOME/arduino_ide/libraries/ArduinoJson
 script:
   - build_platform esp8266
 notifications:
