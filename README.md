@@ -58,7 +58,7 @@ After flashing the firmware the module should appear as a WiFi Acces Point (AP-M
 - Now the ESP tries to connect to your WiFi network, it will no longer be available as a AP!
 - If the ESP fails connecting to the WiFi network, it will open a AP again after about 30 seconds.
 - After another 30 seconds the ESP tries to connect to the WiFi network again (if no client is connected to the AP).
-- After a WiFi connection is established the ESP will never go to AP Mode again even when it has lost connection. You need to restart it manually (Power off, Power on) to get in AP Mode again.
+- After a WiFi connection is established the ESP will never go to AP mode again even when it has lost connection. You need to restart it manually (Power off, Power on) to get it in AP Mode again.
 
 ## MQTT Configuration
 TODO
@@ -70,7 +70,7 @@ TODO
 TODO
 
 ## Using the sourcecode
-The best way is to use Visual Micro Extension for Microsoft Visual Studio
+I recommend using the Visual Micro Extension for Microsoft Visual Studio
 
 ### Dependencies
 - `FSWebServerLib` Async Webserver Library by **BauerPh** https://github.com/BauerPh/FSWebServerLib
