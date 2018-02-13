@@ -10,6 +10,7 @@ install:
   - git clone https://github.com/me-no-dev/ESPAsyncTCP $HOME/arduino_ide/libraries/ESPAsyncTCP
   - git clone https://github.com/me-no-dev/ESPAsyncWebServer $HOME/arduino_ide/libraries/ESPAsyncWebServer
   - git clone https://github.com/bblanchon/ArduinoJson $HOME/arduino_ide/libraries/ArduinoJson
+  - git clone https://github.com/marvinroger/async-mqtt-client $HOME/arduino_ide/libraries/async-mqtt-client
 script:
   - build_platform esp8266
 notifications:

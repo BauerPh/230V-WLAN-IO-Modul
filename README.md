@@ -80,3 +80,4 @@ I recommend using the Visual Micro Extension for Microsoft Visual Studio
 - `ESPAsyncTCP` Async TCP Library by **Me No Dev** https://github.com/me-no-dev/ESPAsyncTCP
 - `ESPAsyncWebServer` Async HTTP and WebSocket Server by **Me No Dev** https://github.com/me-no-dev/ESPAsyncWebServer
 - `ArduinoJson` JSON Library by **Benoît Blanchon** https://github.com/bblanchon/ArduinoJson
+- `async-mqtt-client` asynchronous MQTT client by **Marvin Roger** https://github.com/marvinroger/async-mqtt-client
