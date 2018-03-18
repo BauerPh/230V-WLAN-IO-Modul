@@ -14,6 +14,9 @@ function testStr(elementId, type, rangeFrom, rangeTo) {
         case "number":
             okay = ((tString.match(/^[0-9]+$/g) ? true : false) && parseInt(tString, 10) >= rangeFrom && parseInt(tString, 10) <= rangeTo);
             break;
+        case "ssid":
+            okay = ((tString.match(/^([^!#;+\[\]/"\s])[^+\[\]/"\s]*$/gi) ? true : false) && tString.length >= rangeFrom && tString.length <= rangeTo);
+            break;
         default:
             okay = (tString.match(/[a-z0-9.,;:öäüß _-]+/gi) ? true : false);
             break;
