@@ -128,6 +128,9 @@ void loop() {
 	if (lockOutput[0] && (lockUntilMs[0] - millis() <= 0)) lockOutput[0] = false;
 	if (lockOutput[1] && (lockUntilMs[1] - millis() <= 0)) lockOutput[1] = false;
 
+	//Restart ESP once a day
+	if (hour() == 3 && minute() == 0 && second() == 0) ESPHTTPServer.restart();
+
 	//************************ OTA ***************************
 	ESPHTTPServer.handle();
 }
