@@ -4,7 +4,7 @@
 #include <Bounce2.h>
 #include <JSONtoSPIFFS.h>
 
-#include "Modul_Info_1O.h"
+#include "Modul_Info_2O.h"
 
 #define CONFIGFILE_MQTT "config_MQTT.json"
 #define CONFIGFILE_IO "config_IO.json"
@@ -153,8 +153,8 @@ void evaluateInput(int x, Bounce &debouncer) {
 	int tmpInNr = x - 1;
 	if (tmpInNr < 0 || tmpInNr > 1) return;
 	debouncer.update();
-	//Rising Edge
-	if (debouncer.rose()) {
+	//Rising Edge (Opto inverts Signal!!!)
+	if (debouncer.fell()) {
 		switch (InConf[tmpInNr].ctrlOutput1RisingEdge) {
 		case 1: //ON
 			if (!lockOutput[0]) output[0] = true;
@@ -189,8 +189,8 @@ void evaluateInput(int x, Bounce &debouncer) {
 			mqttClient.publish(InConf[tmpInNr].cmd.topic.c_str(), InConf[tmpInNr].cmd.qos, InConf[tmpInNr].cmd.retain, InConf[tmpInNr].cmd.payloadOn.c_str());
 		}
 	}
-	//Falling Edge
-	else if (debouncer.fell()) {
+	//Falling Edge (Opto inverts Signal!!!)
+	else if (debouncer.rose()) {
 		switch (InConf[tmpInNr].ctrlOutput1FallingEdge) {
 		case 1: //ON
 			if (!lockOutput[0]) output[0] = true;
