@@ -4,7 +4,7 @@
 #include <Bounce2.h>
 #include <JSONtoSPIFFS.h>
 
-#include "Modul_Info_2O.h"
+#include "Modul_Info_1O.h"
 
 #define CONFIGFILE_MQTT "config_MQTT.json"
 #define CONFIGFILE_IO "config_IO.json"

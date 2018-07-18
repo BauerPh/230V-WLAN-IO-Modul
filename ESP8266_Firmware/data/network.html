@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -166,8 +166,8 @@
         if (checkValues()) {
             document.getElementById("send").disabled = true;
             document.getElementById("info").innerHTML = "Bitte warten...";
-            var body = "ssid=" + document.getElementById("ssid").value + "&";
-            body += "password=" + document.getElementById("password").value + "&";
+            var body = "ssid=" + encodeURIComponent(document.getElementById("ssid").value) + "&";
+            body += "password=" + encodeURIComponent(document.getElementById("password").value) + "&";
             body += "dhcp=" + document.getElementById("dhcp").checked + "&";
             body += "ip=" + document.getElementById("ip").value + "&";
             body += "nm=" + document.getElementById("nm").value + "&";

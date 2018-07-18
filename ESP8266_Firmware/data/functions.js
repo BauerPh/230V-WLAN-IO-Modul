@@ -72,12 +72,12 @@ function setValues(url, callback) {
             function (entry) {
                 fields = entry.split("|");
                 if (fields[2] == "input") {
-                    document.getElementById(fields[0]).value = fields[1];
+                    document.getElementById(fields[0]).value = decodeURIComponent(fields[1]);
                 }
                 else if (fields[2] == "div") {
-                    document.getElementById(fields[0]).innerHTML = fields[1];
+                    document.getElementById(fields[0]).innerHTML = decodeURIComponent(fields[1]);
                 } else if (fields[2] == "chk") {
-                    document.getElementById(fields[0]).checked = fields[1];
+                    document.getElementById(fields[0]).checked = decodeURIComponent(fields[1]);
                 }
             }
         );

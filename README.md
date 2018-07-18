@@ -38,6 +38,7 @@ For now the language of the Webserver is German.
 4. Connect your ESP and bring it in flash mode
 5. Configure Nodemcu Firmware Programmer:<br>
 ![nodemcuflasher_advanced](readme/nodemcuflasher_advanced.jpg "Advanced")
+Try to use lower Baudrates if flashing fails.
 6. Select binaries downloaded in Step 2 and don't forget to tick the two boxes!:<br>
 ![nodemcuflasher_config](readme/nodemcuflasher_config.jpg "Config")
 7. Select COM-Port and press *Flash*:<br>
